@@ -157,8 +157,15 @@ int main()
 	unsigned FrameTimeCounter = 0;
 	std::chrono::time_point<std::chrono::steady_clock> LastFrameTime = std::chrono::steady_clock::now();
 
+	bool bWon = false;
+
 	while (MainWindow.isOpen())
 	{
+		if (bWon)
+		{
+			sf::sleep(sf::seconds(2));
+			MainWindow.close();
+		}
 
 		unsigned DeltaTime = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - LastFrameTime).count();
 		FrameTimeCounter += DeltaTime;
@@ -204,6 +211,7 @@ int main()
 			if (Pacman.IsFoodFinished(MapCellData))
 			{
 				MainWindow.draw(WinText);
+				bWon = true;
 			}
 			else
 			{
